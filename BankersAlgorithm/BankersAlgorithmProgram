@@ -1,0 +1,162 @@
+#include<stdio.h>
+
+
+struct da
+{
+    int max[10], a1[10], need[10], before[10], after[10];
+} p[10];
+
+void main()
+{
+    int i, j, l, r, n;
+    int tot[10], av[10];
+    int cn = 0, cz = 0, c = 0;
+
+  
+
+    printf("Enter number of processes: ");
+    scanf("%d", &n);
+
+    printf("Enter number of resources: ");
+    scanf("%d", &r);
+
+    // Input Allocation and Maximum values
+    for(i = 0; i < n; i++)
+    {
+        printf("\nPROCESS %d\n", i + 1);
+
+        printf("Enter Allocated Resources:\n");
+        for(j = 0; j < r; j++)
+        {
+            scanf("%d", &p[i].a1[j]);
+        }
+
+        printf("Enter Maximum Resources:\n");
+        for(j = 0; j < r; j++)
+        {
+            scanf("%d", &p[i].max[j]);
+
+            // Need = Max - Allocation
+            p[i].need[j] = p[i].max[j] - p[i].a1[j];
+        }
+    }
+
+    // Input Total Resources
+    printf("\nEnter Total Resources:\n");
+    for(i = 0; i < r; i++)
+    {
+        scanf("%d", &tot[i]);
+    }
+
+    // Calculate Available Resources
+    for(i = 0; i < r; i++)
+    {
+        av[i] = tot[i];
+
+        for(j = 0; j < n; j++)
+        {
+            av[i] = av[i] - p[j].a1[i];
+        }
+    }
+
+    printf("\n\tPROCESS\tALLOC\tMAX\tNEED\tAVAIL\n");
+
+    for(i = 0; i < n; i++)
+    {
+        printf("\n\tP%d\t", i);
+
+        // Allocation
+        for(j = 0; j < r; j++)
+        {
+            printf("%d ", p[i].a1[j]);
+        }
+
+        printf("\t");
+
+        // Maximum
+        for(j = 0; j < r; j++)
+        {
+            printf("%d ", p[i].max[j]);
+        }
+
+        printf("\t");
+
+        // Need
+        for(j = 0; j < r; j++)
+        {
+            printf("%d ", p[i].need[j]);
+        }
+
+        // Available only once
+        if(i == 0)
+        {
+            printf("\t");
+
+            for(j = 0; j < r; j++)
+            {
+                printf("%d ", av[j]);
+            }
+        }
+    }
+
+    printf("\n\n\tAVAIL BEFORE\tAVAIL AFTER\n");
+
+    // Banker's Safety Algorithm
+    for(l = 0; l < n; l++)
+    {
+        for(i = 0; i < n; i++)
+        {
+            cn = 0;
+            cz = 0;
+
+            for(j = 0; j < r; j++)
+            {
+                if(p[i].need[j] > av[j])
+                    cn++;
+
+                if(p[i].max[j] == 0)
+                    cz++;
+            }
+
+            if(cn == 0 && cz != r)
+            {
+                printf("\nP%d\t", i);
+
+                // Before Available
+                for(j = 0; j < r; j++)
+                {
+                    p[i].before[j] = av[j];
+                    printf("%d ", p[i].before[j]);
+                }
+
+                printf("\t");
+
+                // After Available
+                for(j = 0; j < r; j++)
+                {
+                    av[j] = av[j] + p[i].a1[j];
+                    p[i].after[j] = av[j];
+
+                    printf("%d ", p[i].after[j]);
+
+                    // Mark process completed
+                    p[i].max[j] = 0;
+                }
+
+                c++;
+                break;
+            }
+            else
+            {
+                cn = 0;
+                cz = 0;
+            }
+        }
+    }
+
+    if(c == n)
+        printf("\n\nTHE ABOVE SEQUENCE IS A SAFE SEQUENCE");
+    else
+        printf("\n\nDEADLOCK OCCURRED");
+
+}
