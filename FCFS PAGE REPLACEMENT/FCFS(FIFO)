@@ -37,47 +37,22 @@ int main() {
             if (frm[j] == ref[i]) {
                 flag = 1;
                 break;
-
             }
-
         }
-
-
-
         if (flag == 0) {
-
             pf++;
-
             victim++;
-
             victim = victim % nof;
-
             frm[victim] = ref[i];
-
         }
-
         for (j = 0; j < nof; j++) {
-
             if (frm[j] != -1)
-
                 printf("%d ", frm[j]);
-
             else
-
                 printf("- ");
-
         }
 
     }
-
-
-
     printf("\n\n\t\t No. of page faults: %d\n", pf);
-
-
-
     return 0;
-
 }
-
-
