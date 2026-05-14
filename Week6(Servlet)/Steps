@@ -1,0 +1,19 @@
+Steps to create servlet programs in eclipse
+1. Open eclipse IDE
+2. Create dynamic web project
+File→ new→ Dynamic web Project→give some project Name in textbox→ Finish
+Project Name is seen project explorer
+3. Create HTML File
+Click project name on leftside→src→main→webapp→right click webapp→new→
+html file 
+4. Create servlet
+Click Java resources on leftside(project explorer)→src/main/java 
+rightclick→New→servlet→ give servlet name as action name in the html 
+form→finish
+5. Add External jar file
+Src/main/java→buildpath→configure build path→select libraries→select 
+modulepath→ rightside click Add External Jar’s→select 
+C:\Program Files\Apache Software Foundation\Tomcat 
+10.1\lib\Servlet.api→apply→apply and close
+6. Now press Run button in the HTML file
+Start server by selecting tomcat 10.1 as localhost→ finish
